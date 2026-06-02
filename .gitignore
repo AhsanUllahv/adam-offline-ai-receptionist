@@ -25,6 +25,9 @@ models/embeddings/*
 documents/*
 !documents/.gitkeep
 
+# Claude Code
+.claude/
+
 # IDE / OS
 .vscode/
 .idea/

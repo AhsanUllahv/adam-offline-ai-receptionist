@@ -4,7 +4,9 @@ services:
     image: offline-humanized-assistant:latest
     container_name: offline-humanized-assistant
     env_file:
-      - .env.example
+      - .env
+    ports:
+      - "8092:8092"
     volumes:
       - ./documents:/app/documents
       - ./data:/app/data
@@ -13,21 +15,19 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       ASSISTANT_DASHBOARD_HOST: 0.0.0.0
+    devices:
+      - /dev/snd:/dev/snd
+    group_add:
+      - audio
     stdin_open: true
     tty: true
     restart: unless-stopped
-    # For microphone/speaker access on Linux/Jetson, uncomment these lines
-    # after confirming the host audio devices.
-    # devices:
-    #   - /dev/snd:/dev/snd
-    # group_add:
-    #   - audio
 
   ingest:
     build: .
     image: offline-humanized-assistant:latest
     env_file:
-      - .env.example
+      - .env
     volumes:
       - ./documents:/app/documents
       - ./data:/app/data
