@@ -1,0 +1,37 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+.env.*
+
+# SSL certificates and private keys — never commit
+ssl/
+
+# Data — runtime-generated, not source
+data/chroma/*
+!data/chroma/.gitkeep
+data/*.db
+data/*.sqlite
+
+# Models — large binaries, downloaded separately
+models/*
+!models/.gitkeep
+!models/embeddings/
+models/embeddings/*
+!models/embeddings/.gitkeep
+
+# User-uploaded documents
+documents/*
+!documents/.gitkeep
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/

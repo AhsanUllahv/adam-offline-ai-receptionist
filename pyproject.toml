@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "offline-humanized-assistant"
+version = "0.1.0"
+description = "Offline voice assistant prototype with humanized state feedback and low-latency streaming flow."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+voice = [
+    "vosk>=0.3.45",
+    "sounddevice>=0.4.6",
+    "webrtcvad>=2.0.10",
+    "pyserial>=3.5",
+    "piper-tts>=1.4.2",
+]
+documents = [
+    "chromadb>=0.5.0",
+    "PyMuPDF>=1.24.0",
+    "sentence-transformers>=2.7.0",
+]
+web = [
+    "fastapi>=0.115.0",
+    "python-multipart>=0.0.9",
+    "uvicorn>=0.18.3",
+]
+all = [
+    "chromadb>=0.5.0",
+    "PyMuPDF>=1.24.0",
+    "sentence-transformers>=2.7.0",
+    "vosk>=0.3.45",
+    "sounddevice>=0.4.6",
+    "webrtcvad>=2.0.10",
+    "pyserial>=3.5",
+    "piper-tts>=1.4.2",
+    "fastapi>=0.115.0",
+    "python-multipart>=0.0.9",
+    "uvicorn>=0.18.3",
+]
+
+[project.scripts]
+assistant = "assistant_app.app:main"
+assistant-ingest = "assistant_app.ingest:main"
+assistant-speak = "assistant_app.speak:main"
+assistant-dashboard = "assistant_app.dashboard:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

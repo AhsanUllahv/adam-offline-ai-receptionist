@@ -1,0 +1,16 @@
+.git
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+data/chroma/*
+data/assistant.db
+documents/*
+models/*
+.env
+!data/.gitkeep
+!data/chroma/.gitkeep
+!documents/.gitkeep
+!models/.gitkeep

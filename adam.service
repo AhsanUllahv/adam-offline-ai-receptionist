@@ -1,0 +1,23 @@
+[Unit]
+Description=Adam Virtual Receptionist
+After=network.target ollama.service
+Wants=ollama.service
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+SupplementaryGroups=audio
+WorkingDirectory=/home/ubuntu/Adam
+EnvironmentFile=/home/ubuntu/Adam/.env.example
+# Wait for Ollama to be ready before starting
+ExecStartPre=/bin/bash -c 'until curl -sf http://127.0.0.1:11434/api/tags > /dev/null; do echo "Waiting for Ollama..."; sleep 3; done'
+ExecStart=/home/ubuntu/Adam/.venv/bin/assistant --voice
+Restart=on-failure
+RestartSec=15
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=adam
+
+[Install]
+WantedBy=multi-user.target

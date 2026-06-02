@@ -1,0 +1,37 @@
+services:
+  assistant:
+    build: .
+    image: offline-humanized-assistant:latest
+    container_name: offline-humanized-assistant
+    env_file:
+      - .env.example
+    volumes:
+      - ./documents:/app/documents
+      - ./data:/app/data
+      - ./models:/app/models
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      ASSISTANT_DASHBOARD_HOST: 0.0.0.0
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    # For microphone/speaker access on Linux/Jetson, uncomment these lines
+    # after confirming the host audio devices.
+    # devices:
+    #   - /dev/snd:/dev/snd
+    # group_add:
+    #   - audio
+
+  ingest:
+    build: .
+    image: offline-humanized-assistant:latest
+    env_file:
+      - .env.example
+    volumes:
+      - ./documents:/app/documents
+      - ./data:/app/data
+      - ./models:/app/models
+    command: ["assistant-ingest", "/app/documents"]
+    profiles:
+      - tools
