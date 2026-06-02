@@ -786,7 +786,7 @@ class BargeinMonitor:
 
         vad = webrtcvad.Vad(2)
         frame_size = int(self._sample_rate * self._FRAME_MS / 1000) * 2
-        audio_q: queue.Queue[bytes] = queue.Queue()
+        audio_q: _queue_mod.Queue[bytes] = _queue_mod.Queue()
 
         def callback(indata: bytes, frames: int, time_info: object, status: object) -> None:
             audio_q.put(bytes(indata))
@@ -803,7 +803,7 @@ class BargeinMonitor:
                 while not self._stop.is_set():
                     try:
                         frame = audio_q.get(timeout=0.1)
-                    except queue.Empty:
+                    except _queue_mod.Empty:
                         continue
 
                     if len(frame) != frame_size:

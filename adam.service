@@ -1,6 +1,6 @@
 [Unit]
 Description=Adam Virtual Receptionist
-After=network.target ollama.service
+After=network.target ollama.service sound.target alsa-restore.service
 Wants=ollama.service
 
 [Service]
@@ -9,12 +9,12 @@ User=ubuntu
 Group=ubuntu
 SupplementaryGroups=audio
 WorkingDirectory=/home/ubuntu/Adam
-EnvironmentFile=/home/ubuntu/Adam/.env.example
-# Wait for Ollama to be ready before starting
+EnvironmentFile=/home/ubuntu/Adam/.env
+ExecStartPre=/bin/bash -c 'until aplay -l 2>/dev/null | grep -q "USB PnP Audio Device"; do echo "Waiting for USB audio device..."; sleep 2; done'
 ExecStartPre=/bin/bash -c 'until curl -sf http://127.0.0.1:11434/api/tags > /dev/null; do echo "Waiting for Ollama..."; sleep 3; done'
 ExecStart=/home/ubuntu/Adam/.venv/bin/assistant --voice
-Restart=on-failure
-RestartSec=15
+Restart=always
+RestartSec=10
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=adam
